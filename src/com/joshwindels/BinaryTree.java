@@ -24,6 +24,23 @@ public class BinaryTree {
         return currentNode;
     }
 
+    public boolean containsValue(int value) {
+        return containsValueRecursive(rootNode, value);
+    }
+
+    private boolean containsValueRecursive(TreeNode currentNode, int value) {
+        if (currentNode == null) {
+            return false;
+        }
+        if (value < currentNode.getValue()){
+            return containsValueRecursive(currentNode.getLeftChild(), value);
+        } else if (value > currentNode.getValue()) {
+            return containsValueRecursive(currentNode.getRightChild(), value);
+        } else {
+            return true;
+        }
+    }
+
     private class TreeNode {
 
         int value;
