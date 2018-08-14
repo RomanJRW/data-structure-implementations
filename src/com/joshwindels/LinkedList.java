@@ -2,11 +2,11 @@ package com.joshwindels;
 
 import java.util.NoSuchElementException;
 
-public class DoubleLinkedList<T> {
+public class LinkedList<T> {
 
     private ListNode head;
 
-    public DoubleLinkedList() {
+    public LinkedList() {
         head = null;
     }
 
@@ -21,11 +21,12 @@ public class DoubleLinkedList<T> {
         if (currentHead == null) {
             throw new NoSuchElementException();
         }
+        T removedValue = head.getValue();
         head = currentHead.getNextNode();
-        return currentHead.getValue();
+        return removedValue;
     }
 
-    public void addToBack(T newValue) {
+    public void addToEnd(T newValue) {
         ListNode newNode = new ListNode(newValue);
         ListNode currentNode = head;
         while (currentNode.getNextNode() != null) {
@@ -34,22 +35,41 @@ public class DoubleLinkedList<T> {
         currentNode.setNextNode(newNode);
     }
 
-    public T removeFromBack() {
-        ListNode currentNode = head;
-        if (currentNode == null) {
+    public T removeFromEnd() {
+        T removedValue = null;
+        if (head == null) {
             throw new NoSuchElementException();
+        } else if (!head.hasNextNode()) {
+            removedValue = head.getValue();
+            head = null;
+        } else {
+            ListNode currentNode = head;
+            while (currentNode.hasNextNode()) {
+                if (!currentNode.getNextNode().hasNextNode()) {
+                    removedValue = currentNode.getNextNode().getValue();
+                    currentNode.setNextNode(null);
+                } else {
+                    currentNode = currentNode.getNextNode();
+                }
+            }
         }
-        while (currentNode.getNextNode() != null) {
+        return removedValue;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder listString = new StringBuilder("List values: ");
+        ListNode currentNode = head;
+        while (currentNode != null) {
+            listString.append(currentNode.getValue() + " ");
             currentNode = currentNode.getNextNode();
         }
-        currentNode.getPreviousNode().setNextNode(null);
-        return currentNode.getValue();
+        return listString.toString();
     }
 
     public class ListNode {
 
         T value;
-        ListNode previousNode;
         ListNode nextNode;
 
         public ListNode(T value) {
@@ -60,16 +80,16 @@ public class DoubleLinkedList<T> {
             return value;
         }
 
-        public ListNode getPreviousNode() {
-            return previousNode;
-        }
-
         public ListNode getNextNode() {
             return nextNode;
         }
 
         public void setNextNode(ListNode nextNode) {
             this.nextNode = nextNode;
+        }
+
+        public boolean hasNextNode() {
+            return getNextNode() != null;
         }
 
     }
