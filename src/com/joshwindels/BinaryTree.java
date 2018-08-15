@@ -1,5 +1,9 @@
 package com.joshwindels;
 
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
+
 public class BinaryTree {
 
     private TreeNode rootNode;
@@ -112,6 +116,29 @@ public class BinaryTree {
             postOrderDFSTraversal(treeNode.getLeftChild());
             postOrderDFSTraversal(treeNode.getRightChild());
             System.out.print(" " + treeNode.getValue());
+        }
+    }
+
+    public void printBFSTraveral() {
+        if (rootNode == null) {
+            return;
+        }
+        Queue<TreeNode> treeNodes = new LinkedBlockingQueue<>();
+        treeNodes.add(rootNode);
+
+        while (!treeNodes.isEmpty()) {
+
+            TreeNode treeNode = treeNodes.remove();
+
+            System.out.print(" " + treeNode.value);
+
+            if (treeNode.getLeftChild() != null) {
+                treeNodes.add(treeNode.getLeftChild());
+            }
+
+            if (treeNode.getRightChild()!= null) {
+                treeNodes.add(treeNode.getRightChild());
+            }
         }
     }
 
