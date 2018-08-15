@@ -91,6 +91,18 @@ public class BinaryTree {
         }
     }
 
+    public void printPreOrderDFSTraveral() {
+        preOrderDFSTraversal(rootNode);
+    }
+
+    private void preOrderDFSTraversal(TreeNode treeNode) {
+        if (treeNode != null) {
+            System.out.print(" " + treeNode.getValue());
+            preOrderDFSTraversal(treeNode.getLeftChild());
+            preOrderDFSTraversal(treeNode.getRightChild());
+        }
+    }
+
     private class TreeNode {
 
         int value;
