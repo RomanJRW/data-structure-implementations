@@ -79,6 +79,18 @@ public class BinaryTree {
         }
     }
 
+    public void printInOrderDFSTraveral() {
+        inOrderDFSTraversal(rootNode);
+    }
+
+    private void inOrderDFSTraversal(TreeNode treeNode) {
+        if (treeNode != null) {
+            inOrderDFSTraversal(treeNode.getLeftChild());
+            System.out.print(" " + treeNode.getValue());
+            inOrderDFSTraversal(treeNode.getRightChild());
+        }
+    }
+
     private class TreeNode {
 
         int value;
