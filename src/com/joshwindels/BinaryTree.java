@@ -41,6 +41,44 @@ public class BinaryTree {
         }
     }
 
+    public void removeValue(int value) {
+        removeValueRecursive(rootNode, value);
+    }
+
+    private TreeNode removeValueRecursive(TreeNode currentNode, int value) {
+        if (currentNode == null) {
+            return null;
+        }
+        if (value < currentNode.getValue()) {
+            currentNode.setLeftChild(removeValueRecursive(currentNode.getLeftChild(), value));
+            return currentNode;
+        } else if (value > currentNode.getValue()) {
+            currentNode.setRightChild(removeValueRecursive(currentNode.getRightChild(), value));
+            return currentNode;
+        } else {
+            if (currentNode.getLeftChild() == null && currentNode.getRightChild() == null) {
+                return null;
+            } else if (currentNode.getLeftChild() == null) {
+                return currentNode.getRightChild();
+            } else if (currentNode.getRightChild() == null) {
+                return currentNode.getLeftChild();
+            } else {
+                int lowestValue = findLowestValue(currentNode.getRightChild());
+                currentNode.setValue(lowestValue);
+                currentNode.setRightChild(removeValueRecursive(currentNode.getRightChild(), lowestValue));
+                return currentNode;
+            }
+        }
+    }
+
+    private int findLowestValue(TreeNode treeNode) {
+        if (treeNode.getLeftChild() == null) {
+            return treeNode.getValue();
+        } else {
+            return findLowestValue(treeNode.getRightChild());
+        }
+    }
+
     private class TreeNode {
 
         int value;
@@ -55,6 +93,10 @@ public class BinaryTree {
 
         public int getValue() {
             return value;
+        }
+
+        public void setValue(int value) {
+            this.value = value;
         }
 
         public TreeNode getLeftChild() {
